@@ -12,14 +12,32 @@
   <body>
     <div id="main_container">
 
-      <div class="full_window" id="active_player" style="display: none;"></div>
-      <div class="full_window" id="card_czar" style="display: none;"></div>
+      <div class="full_window" id="player_entry">
+        <h2 id="player_entry_message">Enter players' names here.</h2>
+        <input type="text" id="player_entry_name_input" placeholder="Player's Name...">
+        <div id="player_entry_button_container">
+          <div class="button" id="player_entry_add_button" onclick="addPlayer();">Add Player</div>
+          <div class="button" id="player_entry_end_button" onclick="prepareGame();">Continue</div>
+        </div>
+        <ul id="player_entry_player_list" style="display: none;">
+          <span style="font-weight: 600; text-decoration: underline;">
+            Players Ready
+          </span>
+        </ul>
+      </div>
 
-      <div class="full_window" id="player_transition">
+
+      <div class="full_window" id="player_transition" style="display: none;">
         <h1 id="transition_player_name"></h1>
         <h2 id="transition_message"></h2>
         <div class="button" id="transition_button"></div>
       </div>
+
+
+      <div class="full_window" id="active_player" style="display: none;"></div>
+
+
+      <div class="full_window" id="card_czar" style="display: none;"></div>
 
     </div>
 

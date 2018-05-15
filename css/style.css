@@ -27,6 +27,32 @@ h1, h2, h3, h4 {
   font-weight: 400;
 }
 
+div#player_entry > h2#player_entry_message {
+  text-align: center;
+  font-size: 25pt;
+  font-weight: 600;
+}
+
+div#player_entry > input#player_entry_name_input {
+  width: 400px;
+  height: 50px;
+  margin: 50px calc(50% - 200px);
+}
+
+div#player_entry > div#player_entry_button_container {
+  display: flex;
+  flex-direction: row;
+}
+
+div#player_entry > ul#player_entry_player_list {
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none;
+}
+
 div#player_transition > h1#transition_player_name {
   text-align: center;
   font-size: 40pt;
