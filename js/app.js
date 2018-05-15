@@ -1,5 +1,6 @@
 const StartingWhiteCards = 10;
 
+let activePlayer, roundCzar;
 let playerList = [], playerCount = 0;
 let activeWhiteCards = [];
 
