@@ -2,7 +2,7 @@ const StartingWhiteCards = 10;
 
 let activePlayer, roundCzar;
 let playerList = [], playerCount = 0;
-let activeWhiteCards = [];
+let activeWhiteCards = [], inPlayWhiteCards = [];
 let activeBlackCard, usedBlackCards = [];
 
 /*========================*/
@@ -94,8 +94,9 @@ function sortWhiteCards() {
 
 function createWhiteCard(card) {
   var str;
-  str  = '<div class="active_player_white_card white_card" onclick="$(this).toggleClass(\'selected\');">';
-  str += '<span class="active_player_white_text">';
+  str  = '<div class="active_player_white_card white_card" onclick="selectWhiteCard(this);" cardID="';
+  str += card.cardID;
+  str += '"><span class="active_player_white_text">';
   str += card.cardText;
   str += '</span></div>'
   return str;

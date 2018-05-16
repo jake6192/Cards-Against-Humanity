@@ -1,12 +1,27 @@
 $(document).ready(function() {
-  // var player1 = new Player('Jake6192');
-  // var player2 = new Player('OtherGuy');
-  // var player3 = new Player('DifferentName');
-  // activePlayer = player3;
-  // roundCzar = player1;
-
   listPlayers();
 });
+
+function searchPlayerID(id) {
+  return playerList.filter(function( obj ) {
+    return obj.playerID == id;
+  })[0];
+}
+
+function getCardOwner(card) {
+  return playerList.filter(function( obj ) {
+    return obj.playerID == card.playerID;
+  })[0];
+}
+
+function getWhiteCard(cardID) {
+  return activeWhiteCards.filter(function( obj ) {
+    return obj.cardID == cardID;
+  })[0];
+}
+
+
+
 
 
 function prepareGame() {
@@ -31,6 +46,7 @@ function startGame() {
   getBlackCard(function(activeBlackCard) {
     $('div.full_window').hide();
     $('div#active_player.full_window').show()
+    $('div#active_player > div#active_player_name').html(activePlayer.playerName);
     $('div#active_player > div > span#active_player_black_text').html(activeBlackCard.cardText);
     var whiteCards = activePlayer.whiteCards;
     for(var i = 0; i < whiteCards.length; i++) {
@@ -55,15 +71,39 @@ function addPlayer() {
 }
 
 
-function searchPlayerID(id) {
-  return playerList.filter(function( obj ) {
-    return obj.playerID == id;
-  })[0];
+function selectWhiteCard(el) {
+  // var maxSelections = activeBlackCard.blankSpaces;
+  var maxSelections = 5;
+  var selected = $('div.white_card.selected');
+  if($(el).hasClass('selected')) {
+    $(el).removeClass('selected');
+    var clicked_el_order = $(el).attr('selection_order');
+    var elements = $('div.white_card.selected[selection_order]');
+
+    for(var i = 0; i < elements.length; i++) {
+      var current_order = $(elements[i]).attr('selection_order');
+
+      if(current_order < clicked_el_order) continue;
+
+      $(elements[i]).attr({'selection_order': current_order-1});
+    }
+    $(el).removeAttr('selection_order');
+  } else if(selected.length < maxSelections) {
+    $(el).addClass('selected');
+    selected = $('div.white_card.selected');
+    $(el).attr({"selection_order": selected.length});
+  }
 }
 
 
-function getCardOwner(card) {
-  return playerList.filter(function( obj ) {
-    return obj.playerID == card.playerID;
-  })[0];
+function parseUserSelection() {
+  var minSelections = activeBlackCard.blankSpaces;
+  var selected = $('div.white_card.selected');
+  if(selected.length == minSelections) {
+    inPlayWhiteCards.push([]);
+    var len = inPlayWhiteCards.length;
+    for(var i = 0; i < selected.length; i++) {
+      inPlayWhiteCards[len-1].push(getWhiteCard($(selected[i]).attr('cardID')));
+    }
+  } else alert(minSelections+' white card' + (minSelections>1?'s':'') + ' needed for this round...');
 }

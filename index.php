@@ -38,6 +38,13 @@
         <div id="active_player_black_card" class="black_card">
           <span id="active_player_black_text"></span>
         </div>
+
+        <div class="button" id="active_player_confirm_button" onclick="parseUserSelection();">
+          Confirm Selection
+        </div>
+
+        <div id="active_player_name"></div>
+
         <div id="active_player_white_cards">
           <div class="scroll_x_container"></div>
         </div>
