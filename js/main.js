@@ -28,7 +28,15 @@ function prepareGame() {
 
 
 function startGame() {
-  alert("This is it.. This is the whole game :)");
+  getBlackCard(function(activeBlackCard) {
+    $('div.full_window').hide();
+    $('div#active_player.full_window').show()
+    $('div#active_player > div > span#active_player_black_text').html(activeBlackCard.cardText);
+    var whiteCards = activePlayer.whiteCards;
+    for(var i = 0; i < whiteCards.length; i++) {
+      $('div#active_player > div#active_player_white_cards > div').append(createWhiteCard(whiteCards[i]));
+    }
+  });
 }
 
 

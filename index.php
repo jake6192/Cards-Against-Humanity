@@ -34,7 +34,14 @@
       </div>
 
 
-      <div class="full_window" id="active_player" style="display: none;"></div>
+      <div class="full_window" id="active_player" style="display: none;">
+        <div id="active_player_black_card" class="black_card">
+          <span id="active_player_black_text"></span>
+        </div>
+        <div id="active_player_white_cards">
+          <div class="scroll_x_container"></div>
+        </div>
+      </div>
 
 
       <div class="full_window" id="card_czar" style="display: none;"></div>
