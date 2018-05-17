@@ -8,6 +8,7 @@
   height: calc(100% - 8px);
   margin: 2px;
   border: 2px groove rgb(80, 80, 80);
+  z-index: 1;
 }
 
 div.button {
@@ -21,7 +22,7 @@ div.button {
   color: rgb(50, 50, 50);
   background-color: rgba(210, 210, 210, 0.95);
   border: 1px solid rgb(180, 180, 180);
-  border-radius: 5px;
+  border-radius: 10px;
 }
 div.button:hover {
   cursor: pointer;
@@ -70,6 +71,8 @@ div#player_entry > ul#player_entry_player_list {
 /*====================================*/
 
 
+div#player_transition { z-index: 2; }
+
 div#player_transition > h1#transition_player_name {
   text-align: center;
   font-size: 40pt;
@@ -89,13 +92,15 @@ div#player_transition > h2#transition_message {
 /*====================================*/
 
 
-div#active_player > div#active_player_black_card {
+div#active_player > div#active_player_black_card,
+div#card_czar > div#card_czar_black_card  {
   position: absolute;
   top: 30px;
   left: 30px;
 }
 
-div#active_player > div#active_player_white_cards {
+div#active_player > div#active_player_white_cards,
+div#card_czar > div#card_czar_white_cards {
   position: absolute;
   bottom: 30px;
   left: 30px;
@@ -105,6 +110,7 @@ div#active_player > div#active_player_white_cards {
   border: 2px groove #ddd;
   border-radius: 5px;
   padding: 10px;
+  padding-right: 10px;
   background-color: #bbbbbb;
 }
 
@@ -112,9 +118,11 @@ div#active_player > div#active_player_white_cards > div {
   display: flex;
   flex-direction: row;
   width: 10000px;
+  padding-right: 10px;
 }
 
-div#active_player > div#active_player_name {
+div#active_player > div#active_player_name,
+div#card_czar > div#card_czar_name {
   position: absolute;
   top: 10px;
   right: 20px;
@@ -152,7 +160,7 @@ div#active_player > div#active_player_confirm_button {
   border-radius: 8px;
   background-color: #fff;
   white-space: normal;
-}.white_card:hover{
+}#active_player .white_card:hover{
   cursor: pointer;
   border: 2px groove #999999;
 }.white_card.selected {
@@ -164,4 +172,31 @@ div#active_player > div#active_player_confirm_button {
   font-size: 11pt;
   color: #000;
   line-height: 20px;
+}
+
+
+/*================================*/
+/* === Card Czar Judging Page === */
+/*================================*/
+
+
+div#card_czar > div#card_czar_white_cards > div[class*="scroll_x"] {
+  display: flex;
+  flex-direction: row;
+  width: 10000px;
+  padding-right: 10px;
+}
+
+div#card_czar > div#card_czar_white_cards > div[class*="scroll_x"] > div.player_selection {
+  display: flex;
+  flex-direction:  row;
+  padding: 5px;
+  border: 2px groove #d4d4d4;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+div#card_czar > div#card_czar_white_cards > div[class*="scroll_x"] > div.player_selection:hover {
+  cursor: pointer;
+  border: 2px solid #43a260;
 }

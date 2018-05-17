@@ -90,13 +90,27 @@ function sortWhiteCards() {
     });
   }
 }
+function sortSelectionOrder() {
+  for(var i in inPlayWhiteCards) {
+    var playersCards = inPlayWhiteCards[i];
+    playersCards.sort(function(a, b) {
+      return (a.selection_order > b.selection_order) ? 1 : ((b.selection_order > a.selection_order) ? -1 : 0);
+    });
+  }
+}
 
 
-function createWhiteCard(card) {
+function createWhiteCard(card, isCzar) {
   var str;
-  str  = '<div class="active_player_white_card white_card" onclick="selectWhiteCard(this);" cardID="';
+  str  = '<div class="';
+  str += isCzar?'card_czar':'active_player';
+  str += '_white_card white_card" onclick="';
+  str += isCzar?'':'selectWhiteCard(this);';  // TODO ~~ onclick for Czar. //
+  str += '" cardID="';
   str += card.cardID;
-  str += '"><span class="active_player_white_text">';
+  str += '"><span class="';
+  str += isCzar?'card_czar':'active_player';
+  str += '_white_text">';
   str += card.cardText;
   str += '</span></div>'
   return str;
@@ -104,5 +118,23 @@ function createWhiteCard(card) {
 
 
 function startRoundJudging() {
-  
+  activePlayer = roundCzar;
+  $('div.full_window').hide();
+  $('div#card_czar.full_window').show();
+  $('div#card_czar > div#card_czar_name').html(activePlayer.playerName);
+  $('div#card_czar > div > span#card_czar_black_text').html(activeBlackCard.cardText);
+
+  if(activeBlackCard.blankSpaces > 1) sortSelectionOrder();
+
+  var whiteCards = inPlayWhiteCards, str='';
+  for(var i = 0; i < whiteCards.length; i++) {
+    str += '<div class="player_selection" playerID="';
+    str += whiteCards[i][0].playerID;
+    str += '">';
+    for(var j = 0; j < whiteCards[i].length; j++) {
+      str += createWhiteCard(whiteCards[i][j], true);
+    }
+    str += '</div>';
+  }
+  $('div#card_czar > div#card_czar_white_cards > div').append(str);
 }

@@ -51,7 +51,21 @@
       </div>
 
 
-      <div class="full_window" id="card_czar" style="display: none;"></div>
+      <div class="full_window" id="card_czar" style="display: none;">
+        <div id="card_czar_black_card" class="black_card">
+          <span id="card_czar_black_text"></span>
+        </div>
+
+        <div id="card_czar_white_cards">
+          <div class="scroll_x_container"></div>
+        </div>
+
+        <div class="button" id="card_czar_confirm_button" onclick="">
+          Confirm Selection
+        </div>
+
+        <div id="card_czar_name"></div>
+      </div>
 
     </div>
 

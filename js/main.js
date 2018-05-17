@@ -35,7 +35,7 @@ function prepareGame() {
   roundCzar = playerList[playerList.length - 1];
 
   $('div.full_window').hide();
-  $('div#player_transition.full_window').show()
+  $('div#player_transition.full_window').show();
   $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
   $('div#player_transition > h2#transition_message').html('...is starting the game!<br/><br/><br/><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br/>The Card Czar <strong>must not</strong> see anything until their turn.');
   $('div#player_transition > div#transition_button').html('Click Here to Start...').attr({"onclick": "startGame();"});
@@ -62,10 +62,13 @@ function nextPlayer() {
   while(!foundPlayer) {
     nextPlayer = searchPlayerID(nextID);
          if(nextPlayer === undefined) nextID = 1;
-    else if(nextPlayer === roundCzar) startRoundJudging();
-    else foundPlayer = true;
+    else if(nextPlayer === roundCzar) {
+      startRoundJudging();
+      return;
+    } else foundPlayer = true;
   }
   activePlayer = nextPlayer;
+
   $('div#active_player > div#active_player_name').html(activePlayer.playerName);
   $('div#active_player > div#active_player_white_cards > div').html('');
   var whiteCards = activePlayer.whiteCards;
@@ -121,7 +124,7 @@ function parseUserSelection() {
     var len = inPlayWhiteCards.length;
     for(var i = 0; i < selected.length; i++) {
       var card = getWhiteCard($(selected[i]).attr('cardID'));
-      card.selection_order = $(selected[i]).attr('selection_order');
+      card.selection_order = parseInt($(selected[i]).attr('selection_order'));
       inPlayWhiteCards[len-1].push(card);
     }
   } else alert(minSelections+' white card' + (minSelections>1?'s':'') + ' needed for this round...');
