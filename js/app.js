@@ -120,6 +120,12 @@ function createWhiteCard(card, isCzar) {
 function startRoundJudging() {
   activePlayer = roundCzar;
   $('div.full_window').hide();
+
+  $('div#player_transition.full_window').show();
+  $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
+  $('div#player_transition > h2#transition_message').html('...is the <strong>Card Czar</strong> for this round!!<br/><br/><br/><br/>');
+  $('div#player_transition > div#transition_button').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide();"});
+
   $('div#card_czar.full_window').show();
   $('div#card_czar > div#card_czar_name').html(activePlayer.playerName);
   $('div#card_czar > div > span#card_czar_black_text').html(activeBlackCard.cardText);

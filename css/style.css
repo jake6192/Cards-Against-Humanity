@@ -8,6 +8,8 @@
   height: calc(100% - 8px);
   margin: 2px;
   border: 2px groove rgb(80, 80, 80);
+  background-color: #fff;
+  position: fixed;
   z-index: 1;
 }
 
@@ -71,7 +73,7 @@ div#player_entry > ul#player_entry_player_list {
 /*====================================*/
 
 
-div#player_transition { z-index: 2; }
+div#player_transition {z-index: 2;}
 
 div#player_transition > h1#transition_player_name {
   text-align: center;

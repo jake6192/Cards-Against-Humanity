@@ -69,6 +69,11 @@ function nextPlayer() {
   }
   activePlayer = nextPlayer;
 
+  $('div#player_transition.full_window').show();
+  $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
+  $('div#player_transition > h2#transition_message').html('...is up next!<br/><br/><br/><br/>');
+  $('div#player_transition > div#transition_button').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide();"});
+
   $('div#active_player > div#active_player_name').html(activePlayer.playerName);
   $('div#active_player > div#active_player_white_cards > div').html('');
   var whiteCards = activePlayer.whiteCards;
