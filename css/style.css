@@ -105,7 +105,7 @@ div#active_player > div#active_player_white_cards {
   border: 2px groove #ddd;
   border-radius: 5px;
   padding: 10px;
-  background-color: #eee;
+  background-color: #bbbbbb;
 }
 
 div#active_player > div#active_player_white_cards > div {
@@ -150,7 +150,7 @@ div#active_player > div#active_player_confirm_button {
   padding: 5px 10px;
   border: 2px groove #eee;
   border-radius: 8px;
-  background-color: #eee;
+  background-color: #fff;
   white-space: normal;
 }.white_card:hover{
   cursor: pointer;

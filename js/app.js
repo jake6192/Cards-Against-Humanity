@@ -101,3 +101,8 @@ function createWhiteCard(card) {
   str += '</span></div>'
   return str;
 }
+
+
+function startRoundJudging() {
+  
+}
