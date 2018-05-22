@@ -31,10 +31,11 @@ div.button:hover {
   border: 2px solid #808080;
 }
 
-h1, h2, h3, h4 {
-  font-weight: 400;
-}
-
+h1, h2,
+h3, h4   { font-weight: 400; }
+.bold    { font-weight: 600; }
+.regular { font-weight: 400; }
+.light   { font-weight: 200; }
 
 /*================================*/
 /* === Player Name Entry Page === */
@@ -86,6 +87,22 @@ div#player_transition > h2#transition_message {
   text-align: center;
   font-size: 20pt;
   line-height: 40px;
+}
+
+div#player_transition > ul#player_transition_player_list {
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none;
+}
+
+div#player_transition > ul#player_transition_player_list > li.winner {
+  background-color: #1a941a;
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #fff;
 }
 
 
@@ -166,10 +183,11 @@ div#active_player > div#active_player_confirm_button {
   cursor: pointer;
   border: 2px groove #999999;
 }.white_card.selected {
-  border: 4px groove #99ee99;
-  height: 188px;
-  width: 138px;
-  padding: 3px 10px 4px 8px;
+  border: 4px groove #99ee99 !important;
+  /* height: 188px; */
+  /* width: 138px; */
+  /* padding: 3px 10px 4px 8px; */
+  padding: 3px 8px;
 }.white_card>span{
   font-size: 11pt;
   color: #000;
@@ -201,4 +219,9 @@ div#card_czar > div#card_czar_white_cards > div[class*="scroll_x"] > div.player_
 div#card_czar > div#card_czar_white_cards > div[class*="scroll_x"] > div.player_selection:hover {
   cursor: pointer;
   border: 2px solid #43a260;
+}
+
+.player_selection.selected {
+  border: 4px groove #99ee99 !important;
+  padding: 3px !important;
 }

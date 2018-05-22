@@ -1,6 +1,7 @@
 const StartingWhiteCards = 10;
 
 let activePlayer, roundCzar;
+let roundWinner;
 let playerList = [], playerCount = 0;
 let activeWhiteCards = [], inPlayWhiteCards = [];
 let activeBlackCard, usedBlackCards = [];
@@ -36,36 +37,53 @@ function BlackCard(cardID, cardText, blankSpaces) {
   this.blankSpaces = blankSpaces;
 }
 
+
 /*===================*/
 /* ===  Methods  === */
 /*===================*/
 
+
 const listPlayers=()=>console.log(playerList);
+
 
 function getBlackCard(callback) {
   $.getJSON('js/json/blackcards.json', function( data ) {
     getCardText(data, "black", function(card) {
-      if(activeBlackCard!=undefined) usedBlackCards.push(activeBlackCard);
+      if(activeBlackCard != undefined) usedBlackCards.push(activeBlackCard);
       activeBlackCard = new BlackCard(card[0], card[1], card[2]);
       callback(activeBlackCard);
     });
   });
 }
+
+
 function fillWhiteCards(player) {
   $.getJSON('js/json/whitecards.json', function( data ) {
     for(var i = 0; i < StartingWhiteCards; i++) {
       getCardText(data, "white", function(card) {
         var new_white_card = new WhiteCard(card[0], player.playerID, card[1]);
         player.whiteCards.push(new_white_card);
-         activeWhiteCards.push(new_white_card);
+        activeWhiteCards.push(new_white_card);
       });
     }
   });
 }
+
+
+function addWhiteCard(player) {
+  $.getJSON('js/json/whitecards.json', function( data ) {
+    getCardText(data, "white", function(card) {
+      var new_white_card = new WhiteCard(card[0], player.playerID, card[1]);
+      player.whiteCards.push(new_white_card);
+      activeWhiteCards.push(new_white_card);
+    });
+  });
+}
+
+
 function getCardText(data, colour, callback) {
   var randomInt, _cardID, cardIndex;
-  var isUniqueCard = false;
-  while( !isUniqueCard ) {
+  while( true ) {
     if(colour=='white') {
       randomInt = Math.floor(Math.random() * data.WhiteCards.length) + 0;
       _cardID = data.WhiteCards[randomInt][0];
@@ -86,7 +104,8 @@ function sortWhiteCards() {
   for(var i in playerList) {
     var player = playerList[i];
     player.whiteCards.sort(function(a, b) {
-      return (a.cardID > b.cardID) ? 1 : ((b.cardID > a.cardID) ? -1 : 0);
+      var c = a.cardID, d = b.cardID;
+      return (c > d) ? 1 : ((d > c) ? -1 : 0);
     });
   }
 }
@@ -94,22 +113,24 @@ function sortSelectionOrder() {
   for(var i in inPlayWhiteCards) {
     var playersCards = inPlayWhiteCards[i];
     playersCards.sort(function(a, b) {
-      return (a.selection_order > b.selection_order) ? 1 : ((b.selection_order > a.selection_order) ? -1 : 0);
+      var c = a.selection_order, d = b.selection_order;
+      return (c > d) ? 1 : ((d > c) ? -1 : 0);
     });
   }
 }
 
 
 function createWhiteCard(card, isCzar) {
+  var _class = isCzar?'card_czar':'active_player'
   var str;
   str  = '<div class="';
-  str += isCzar?'card_czar':'active_player';
+  str += _class;
   str += '_white_card white_card" onclick="';
-  str += isCzar?'':'selectWhiteCard(this);';  // TODO ~~ onclick for Czar. //
+  str += isCzar?'selectWinningCard(this);':'selectWhiteCard(this);';
   str += '" cardID="';
   str += card.cardID;
   str += '"><span class="';
-  str += isCzar?'card_czar':'active_player';
+  str += _class;
   str += '_white_text">';
   str += card.cardText;
   str += '</span></div>'
@@ -119,8 +140,8 @@ function createWhiteCard(card, isCzar) {
 
 function startRoundJudging() {
   activePlayer = roundCzar;
-  $('div.full_window').hide();
 
+  $('div.full_window').hide();
   $('div#player_transition.full_window').show();
   $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
   $('div#player_transition > h2#transition_message').html('...is the <strong>Card Czar</strong> for this round!!<br/><br/><br/><br/>');
@@ -132,6 +153,7 @@ function startRoundJudging() {
 
   if(activeBlackCard.blankSpaces > 1) sortSelectionOrder();
 
+  $('div#card_czar > div#card_czar_white_cards > div').html('');
   var whiteCards = inPlayWhiteCards, str='';
   for(var i = 0; i < whiteCards.length; i++) {
     str += '<div class="player_selection" playerID="';

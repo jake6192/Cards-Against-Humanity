@@ -21,13 +21,18 @@
         </div>
         <ul id="player_entry_player_list" style="display: none;">
           <span style="font-weight: 600; text-decoration: underline;">
-            Players Ready
+            Players Ready:
           </span>
         </ul>
       </div>
 
 
       <div class="full_window" id="player_transition" style="display: none;">
+        <ul id="player_transition_player_list" style="display: none;">
+          <span style="font-weight: 600; text-decoration: underline;">
+            Scoreboard:
+          </span>
+        </ul>
         <h1 id="transition_player_name"></h1>
         <h2 id="transition_message"></h2>
         <div class="button" id="transition_button"></div>
