@@ -21,24 +21,22 @@ function prepareGame() {
   // Select the card czar from the remaining players. //
   roundCzar = playerList[playerList.length - 1];
 
-  $('div.full_window').hide();
+  $('div.full_window                  ').hide();
   $('div#player_transition.full_window').show();
   $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
-  $('div#player_transition > h2#transition_message').html('...is starting the game!<br/><br/><br/><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br/>The Card Czar <strong>must not</strong> see anything until their turn.');
-  $('div#player_transition > div#transition_button').html('Click Here to Start...').attr({"onclick": "startGame();"});
+  $('div#player_transition > h2#transition_message    ').html('...is starting the game!<br/><br/><br/><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br/>The Card Czar <strong>must not</strong> see anything until their turn.');
+  $('div#player_transition > div#transition_button    ').html('Click Here to Start...').attr({"onclick": "startGame();"});
 }
 
 
 function startGame() {
   getBlackCard(function(activeBlackCard) {
-    $('div.full_window').hide();
+    $('div.full_window              ').hide();
     $('div#active_player.full_window').show();
-    $('div#active_player > div#active_player_name').html(activePlayer.playerName);
+    $('div#active_player > div#active_player_name             ').html(activePlayer.playerName);
     $('div#active_player > div > span#active_player_black_text').html(activeBlackCard.cardText);
-    var whiteCards = activePlayer.whiteCards;
-    for(var i = 0; i < whiteCards.length; i++) {
-      $('div#active_player > div#active_player_white_cards > div').append(createWhiteCard(whiteCards[i]));
-    }
+    for(var i = 0, whiteCards = activePlayer.whiteCards; i < whiteCards.length; i++)
+     $('div#active_player > div#active_player_white_cards > div').append(createWhiteCard(whiteCards[i]));
   });
 }
 
@@ -56,13 +54,14 @@ function nextPlayer() {
   }
   activePlayer = nextPlayer;
 
-  $('div.full_window').hide();
-  $('div#player_transition.full_window, div#active_player.full_window').show();
+  $('div.full_window                  ').hide();
+  $('div#player_transition.full_window').show();
+  $('div#active_player.full_window    ').show();
   $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
-  $('div#player_transition > h2#transition_message').html('...is up next!<br/><br/><br/><br/>');
-  $('div#player_transition > div#transition_button').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide();"});
+  $('div#player_transition > h2#transition_message    ').html('...is up next!<br/><br/><br/><br/>');
+  $('div#player_transition > div#transition_button    ').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide();"});
 
-  $('div#active_player > div#active_player_name').html(activePlayer.playerName);
+  $('div#active_player > div#active_player_name             ').html(activePlayer.playerName);
   $('div#active_player > div#active_player_white_cards > div').html('');
   var whiteCards = activePlayer.whiteCards;
   for(var i = 0; i < whiteCards.length; i++) {
@@ -149,31 +148,30 @@ function endRound() {
     }
   }
 
+  let PID = roundWinner.playerID;
   inPlayWhiteCards = [];
   usedBlackCards.push(activeBlackCard);
   getBlackCard(function(activeBlackCard) {
-    $('div.full_window').hide();
+    $('div.full_window                  ').hide();
+    $('div#active_player.full_window    ').show();
     $('div#player_transition.full_window').show();
 
-    $('div#player_transition > ul#player_transition_player_list').show();
-    $('div#player_transition > ul#player_transition_player_list li').remove();
-    for(var i in playerList) $('div#player_transition > ul#player_transition_player_list').append('<li playerID="'+playerList[i].playerID+'">'+playerList[i].playerName+' - '+playerList[i].score+'</li>');
-    $('div#player_transition > ul#player_transition_player_list > li[playerID="'+roundWinner.playerID+'"]').addClass('winner');
-
-    $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
-    $('div#player_transition > h2#transition_message').html('...is starting the next round!<br/><br/><br/><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br/>The Card Czar <strong>must not</strong> see anything until their turn.');
-    $('div#player_transition > div#transition_button').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide(); $('.winner').removeClass('winner')"});
-    $('div#active_player.full_window').show();
-    $('div#active_player > div#active_player_name').html(activePlayer.playerName);
+    $('div#active_player > div#active_player_name             ').html(activePlayer.playerName);
     $('div#active_player > div > span#active_player_black_text').html(activeBlackCard.cardText);
     $('div#active_player > div#active_player_white_cards > div').html('');
-    var whiteCards = activePlayer.whiteCards;
-    for(var i = 0; i < whiteCards.length; i++) {
+
+    $('div#player_transition > h2#transition_message                                    ').html('...is starting the next round!<br/><br/><br/><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br/>The Card Czar <strong>must not</strong> see anything until their turn.');
+    $('div#player_transition > div#transition_button                                    ').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide(); $('.winner').removeClass('winner'); roundWinner = undefined;"});
+    $('div#player_transition > h1#transition_player_name                                ').html(activePlayer.playerName);
+    $('div#player_transition > ul#player_transition_player_list                         ').show();
+    $('div#player_transition > ul#player_transition_player_list li                      ').remove();
+    for(var i in playerList) $('div#player_transition > ul#player_transition_player_list').append('<li playerID="'+playerList[i].playerID+'">'+playerList[i].playerName+' - '+playerList[i].score+'</li>');
+    $('div#player_transition > ul#player_transition_player_list > li[playerID="'+PID+'"]').addClass('winner');
+
+    for(var i = 0, whiteCards = activePlayer.whiteCards; i < whiteCards.length; i++) {
       $('div#active_player > div#active_player_white_cards > div').append(createWhiteCard(whiteCards[i]));
     }
   });
-  // TODO ~~ make round winner undefined when transition hidden. //
-  // TODO ~~ reset winner class on scoreboard when transition hidden. //
 }
 
 
@@ -188,6 +186,6 @@ function parseUserSelection() {
       card.selection_order = parseInt($(selected[i]).attr('selection_order'));
       inPlayWhiteCards[len-1].push(card);
     }
+    nextPlayer();
   } else alert(minSelections+' white card' + (minSelections>1?'s':'') + ' needed for this round...');
-  nextPlayer();
 }

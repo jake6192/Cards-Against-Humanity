@@ -1,7 +1,7 @@
 const StartingWhiteCards = 10;
 
-let activePlayer, roundCzar;
 let roundWinner;
+let activePlayer, roundCzar;
 let playerList = [], playerCount = 0;
 let activeWhiteCards = [], inPlayWhiteCards = [];
 let activeBlackCard, usedBlackCards = [];
@@ -13,23 +13,18 @@ let activeBlackCard, usedBlackCards = [];
 function Player(playerName) {
   playerCount++;
   playerList.push(this);
-
   this.playerID = playerCount;
   this.playerName = playerName;
-
   this.score = 0;
   this.whiteCards = [];
-
   fillWhiteCards(this);
 }
-
 
 function WhiteCard(cardID, playerID, cardText) {
   this.cardID = cardID;
   this.playerID = playerID;
   this.cardText = cardText;
 }
-
 
 function BlackCard(cardID, cardText, blankSpaces) {
   this.cardID = cardID;
@@ -44,6 +39,14 @@ function BlackCard(cardID, cardText, blankSpaces) {
 
 
 const listPlayers=()=>console.log(playerList);
+function sortWhiteCards() {
+  for(var i = 0, player = playerList[i]; i < playerList.length; i++)
+    player.whiteCards.sort((a, b)=>(a.cardID > b.cardID)?1:((b.cardID > a.cardID)?-1:0));
+}
+function sortSelectionOrder() {
+  for(var i = 0, playersCards = inPlayWhiteCards[i]; i < inPlayWhiteCards.length; i++)
+    playersCards.sort((a, b)=>(a.selection_order > b.selection_order)?1:((b.selection_order > a.selection_order)?-1:0));
+}
 
 
 function getBlackCard(callback) {
@@ -100,26 +103,6 @@ function getCardText(data, colour, callback) {
 }
 
 
-function sortWhiteCards() {
-  for(var i in playerList) {
-    var player = playerList[i];
-    player.whiteCards.sort(function(a, b) {
-      var c = a.cardID, d = b.cardID;
-      return (c > d) ? 1 : ((d > c) ? -1 : 0);
-    });
-  }
-}
-function sortSelectionOrder() {
-  for(var i in inPlayWhiteCards) {
-    var playersCards = inPlayWhiteCards[i];
-    playersCards.sort(function(a, b) {
-      var c = a.selection_order, d = b.selection_order;
-      return (c > d) ? 1 : ((d > c) ? -1 : 0);
-    });
-  }
-}
-
-
 function createWhiteCard(card, isCzar) {
   var _class = isCzar?'card_czar':'active_player'
   var str;
@@ -141,15 +124,14 @@ function createWhiteCard(card, isCzar) {
 function startRoundJudging() {
   activePlayer = roundCzar;
 
-  $('div.full_window').hide();
+  $('div.full_window                  ').hide();
+  $('div#card_czar.full_window        ').show();
   $('div#player_transition.full_window').show();
+  $('div#card_czar > div#card_czar_name               ').html(activePlayer.playerName);
+  $('div#card_czar > div > span#card_czar_black_text  ').html(activeBlackCard.cardText);
   $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
-  $('div#player_transition > h2#transition_message').html('...is the <strong>Card Czar</strong> for this round!!<br/><br/><br/><br/>');
-  $('div#player_transition > div#transition_button').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide();"});
-
-  $('div#card_czar.full_window').show();
-  $('div#card_czar > div#card_czar_name').html(activePlayer.playerName);
-  $('div#card_czar > div > span#card_czar_black_text').html(activeBlackCard.cardText);
+  $('div#player_transition > h2#transition_message    ').html('...is the <strong>Card Czar</strong> for this round!!<br/><br/><br/><br/>');
+  $('div#player_transition > div#transition_button    ').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide();"});
 
   if(activeBlackCard.blankSpaces > 1) sortSelectionOrder();
 
