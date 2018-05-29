@@ -6,9 +6,10 @@ $(document).ready(function() {
 });
 
 
-const searchPlayerID = (id)     =>       playerList.filter(obj => obj.playerID == id)[0];
-const getCardOwner   = (card)   =>       playerList.filter(obj => obj.playerID == card.playerID)[0];
-const getWhiteCard   = (cardID) => activeWhiteCards.filter(obj => obj.cardID   == cardID)[0];
+const listPlayers    = (      ) => console.log(playerList);
+const searchPlayerID = (_ID   ) =>       playerList.filter(obj => obj.playerID ==           _ID)[0];
+const getCardOwner   = (card  ) =>       playerList.filter(obj => obj.playerID == card.playerID)[0];
+const getWhiteCard   = (cardID) => activeWhiteCards.filter(obj => obj.cardID   ==        cardID)[0];
 
 
 function prepareGame() {

@@ -37,8 +37,6 @@ function BlackCard(cardID, cardText, blankSpaces) {
 /* ===  Methods  === */
 /*===================*/
 
-
-const listPlayers=()=>console.log(playerList);
 function sortWhiteCards() {
   for(var i = 0, player = playerList[i]; i < playerList.length; i++)
     player.whiteCards.sort((a, b)=>(a.cardID > b.cardID)?1:((b.cardID > a.cardID)?-1:0));
