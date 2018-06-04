@@ -25,7 +25,7 @@ function prepareGame() {
   $('div.full_window                  ').hide();
   $('div#player_transition.full_window').show();
   $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
-  $('div#player_transition > h2#transition_message    ').html('...is starting the game!<br/><br/><br/><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br/>The Card Czar <strong>must not</strong> see anything until their turn.');
+  $('div#player_transition > h2#transition_message    ').html('...is starting the game!<br /><br /><br /><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br />The Card Czar <strong>must not</strong> see anything until their turn.');
   $('div#player_transition > div#transition_button    ').html('Click Here to Start...').attr({"onclick": "startGame();"});
 }
 
@@ -59,11 +59,14 @@ function nextPlayer() {
   $('div#player_transition.full_window').show();
   $('div#active_player.full_window    ').show();
   $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
-  $('div#player_transition > h2#transition_message    ').html('...is up next!<br/><br/><br/><br/>');
+  $('div#player_transition > h2#transition_message    ').html('...is up next!<br /><br /><br /><br />');
   $('div#player_transition > div#transition_button    ').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide();"});
 
   $('div#active_player > div#active_player_name             ').html(activePlayer.playerName);
+  $('div#card_czar     > div#card_czar_white_cards          ').scrollLeft(0);
+  $('div#active_player > div#active_player_white_cards      ').scrollLeft(0);
   $('div#active_player > div#active_player_white_cards > div').html('');
+
   var whiteCards = activePlayer.whiteCards;
   for(var i = 0; i < whiteCards.length; i++) {
     $('div#active_player > div#active_player_white_cards > div').append(createWhiteCard(whiteCards[i]));
@@ -161,7 +164,7 @@ function endRound() {
     $('div#active_player > div > span#active_player_black_text').html(activeBlackCard.cardText);
     $('div#active_player > div#active_player_white_cards > div').html('');
 
-    $('div#player_transition > h2#transition_message                                    ').html('...is starting the next round!<br/><br/><br/><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br/>The Card Czar <strong>must not</strong> see anything until their turn.');
+    $('div#player_transition > h2#transition_message                                    ').html('...is starting the next round!<br /><br /><br /><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br />The Card Czar <strong>must not</strong> see anything until their turn.');
     $('div#player_transition > div#transition_button                                    ').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide(); $('.winner').removeClass('winner'); roundWinner = undefined;"});
     $('div#player_transition > h1#transition_player_name                                ').html(activePlayer.playerName);
     $('div#player_transition > ul#player_transition_player_list                         ').show();

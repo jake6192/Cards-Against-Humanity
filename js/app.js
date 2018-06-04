@@ -37,16 +37,18 @@ function BlackCard(cardID, cardText, blankSpaces) {
 /* ===  Methods  === */
 /*===================*/
 
+// Orders all players white cards[ASC]. //
 function sortWhiteCards() {
   for(var i = 0, player = playerList[i]; i < playerList.length; i++)
     player.whiteCards.sort((a, b)=>(a.cardID > b.cardID)?1:((b.cardID > a.cardID)?-1:0));
 }
+// Sorts selection order for multiple blank black cards. //
 function sortSelectionOrder() {
   for(var i = 0, playersCards = inPlayWhiteCards[i]; i < inPlayWhiteCards.length; i++)
     playersCards.sort((a, b)=>(a.selection_order > b.selection_order)?1:((b.selection_order > a.selection_order)?-1:0));
 }
 
-
+// Returns a random black card. //
 function getBlackCard(callback) {
   $.getJSON('js/json/blackcards.json', function( data ) {
     getCardText(data, "black", function(card) {
@@ -57,7 +59,7 @@ function getBlackCard(callback) {
   });
 }
 
-
+// Fills a players white cards at the start of game. //
 function fillWhiteCards(player) {
   $.getJSON('js/json/whitecards.json', function( data ) {
     for(var i = 0; i < StartingWhiteCards; i++) {
@@ -70,7 +72,7 @@ function fillWhiteCards(player) {
   });
 }
 
-
+// Adds one white card to specified player's hand. //
 function addWhiteCard(player) {
   $.getJSON('js/json/whitecards.json', function( data ) {
     getCardText(data, "white", function(card) {
@@ -81,7 +83,7 @@ function addWhiteCard(player) {
   });
 }
 
-
+// Gets random white card text ready for card creation. //
 function getCardText(data, colour, callback) {
   var randomInt, _cardID, cardIndex;
   while( true ) {
@@ -100,7 +102,7 @@ function getCardText(data, colour, callback) {
   else if(colour=='black') callback(data.BlackCards[randomInt]);
 }
 
-
+// Creates interactive white card element for specified round type. //
 function createWhiteCard(card, isCzar) {
   var _class = isCzar?'card_czar':'active_player'
   var str;
@@ -118,7 +120,7 @@ function createWhiteCard(card, isCzar) {
   return str;
 }
 
-
+// All operations for round transition to judging round. //
 function startRoundJudging() {
   activePlayer = roundCzar;
 
@@ -128,21 +130,22 @@ function startRoundJudging() {
   $('div#card_czar > div#card_czar_name               ').html(activePlayer.playerName);
   $('div#card_czar > div > span#card_czar_black_text  ').html(activeBlackCard.cardText);
   $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
-  $('div#player_transition > h2#transition_message    ').html('...is the <strong>Card Czar</strong> for this round!!<br/><br/><br/><br/>');
+  $('div#player_transition > h2#transition_message    ').html('...is the <strong>Card Czar</strong> for this round!!<br /><br /><br /><br />');
   $('div#player_transition > div#transition_button    ').html('Click Here to Continue...').attr({"onclick": "$(this).parent().hide();"});
 
   if(activeBlackCard.blankSpaces > 1) sortSelectionOrder();
 
   $('div#card_czar > div#card_czar_white_cards > div').html('');
-  var whiteCards = inPlayWhiteCards, str='';
-  for(var i = 0; i < whiteCards.length; i++) {
-    str += '<div class="player_selection" playerID="';
+
+  // Displays each individual players' white cards - ready for judging. //
+  for(var i = 0, whiteCards = inPlayWhiteCards, str; i < whiteCards.length; i++) {
+    str  = '<div class="player_selection" playerID="';
     str += whiteCards[i][0].playerID;
     str += '">';
     for(var j = 0; j < whiteCards[i].length; j++) {
       str += createWhiteCard(whiteCards[i][j], true);
     }
     str += '</div>';
+    $('div#card_czar > div#card_czar_white_cards > div').append(str);
   }
-  $('div#card_czar > div#card_czar_white_cards > div').append(str);
 }
