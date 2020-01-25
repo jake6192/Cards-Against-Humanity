@@ -13,10 +13,10 @@
     <div id="main_container">
 
       <div class="full_window" id="player_entry">
-        <h2 id="player_entry_message">Enter players' names here.</h2>
-        <input type="text" id="player_entry_name_input" placeholder="Player's Name...">
+        <h2 id="player_entry_message">Enter player name here.</h2>
+        <input type="text" id="player_entry_name_input" placeholder="Player Name...">
         <div id="player_entry_button_container">
-          <div class="button" id="player_entry_add_button" onclick="addPlayer();">Add Player</div>
+          <!-- <div class="button" id="player_entry_add_button" onclick="addPlayer();">Add Player</div> -->
           <div class="button" id="player_entry_end_button" onclick="prepareGame();">Continue</div>
         </div>
         <ul id="player_entry_player_list" style="display: none;">

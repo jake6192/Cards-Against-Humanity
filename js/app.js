@@ -37,6 +37,17 @@ function BlackCard(cardID, cardText, blankSpaces) {
 /* ===  Methods  === */
 /*===================*/
 
+function createTempPlayer(name) {
+  return new Promise(function(resolve, reject) {
+    makeRequest('php/uploadTempUser.php', 'POST', JSON.stringify({ name: name }))
+    .then(function(posts) {
+      if(posts.responseText=='1') resolve(posts);
+      else reject(posts);
+    })
+    .catch(function(error) { reject(error); });
+  });
+}
+
 // Orders all players white cards[ASC]. //
 function sortWhiteCards() {
   for(var i = 0, player = playerList[i]; i < playerList.length; i++)
