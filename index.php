@@ -13,17 +13,34 @@
     <div id="main_container">
 
       <div class="full_window" id="player_entry">
-        <h2 id="player_entry_message">Enter player name here.</h2>
+        <h2 id="player_entry_message">Enter your name here.</h2>
         <input type="text" id="player_entry_name_input" placeholder="Player Name...">
         <div id="player_entry_button_container">
-          <!-- <div class="button" id="player_entry_add_button" onclick="addPlayer();">Add Player</div> -->
-          <div class="button" id="player_entry_end_button" onclick="prepareGame();">Continue</div>
+          <div class="button" id="player_entry_end_button" onclick="StartProcess();">Continue</div>
         </div>
-        <ul id="player_entry_player_list" style="display: none;">
-          <span style="font-weight: 600; text-decoration: underline;">
-            Players Ready:
-          </span>
-        </ul>
+      </div>
+
+
+      <div class="full_window" id="game_selection" style="display: none;">
+        <h2 id="game_selection_message">Select a game to join or create a new game room.</h2>
+        <div id="game_selection_button_container">
+          <div class="button" id="game_selection_create_button" onclick="$('div.full_window').hide(); $('div#game_creation.full_window').show();">Create Game</div>
+        </div>
+      </div>
+
+
+      <div class="full_window" id="game_creation" style="display: none;">
+        <h2 id="game_creation_message">Enter game name :</h2>
+        <input type="text" id="game_creation_name_input" placeholder="Player Name...">
+        <h2 id="game_creation_label_pw">Enter game password :</h2>
+        <input type="password" id="game_creation_password_input" placeholder="(Leave blank for public game)">
+        <h2 id="game_creation_label_stw">Score to win :</h2>
+        <input type="number" id="game_creation_scoreToWin_input" value="10">
+        <div>allowImages : <input type="checkbox" id="game_creation_allowImages_input" /></div>
+        <div id="game_creation_button_container">
+          <div class="button" id="game_creation_create_button" onclick="createNewGame();">Create Game</div>
+          <div class="button" id="game_creation_cancel_button" onclick="$('div.full_window').hide(); $('div#game_selection.full_window').show();">Cancel</div>
+        </div>
       </div>
 
 

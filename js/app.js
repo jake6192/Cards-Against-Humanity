@@ -41,12 +41,51 @@ function createTempPlayer(name) {
   return new Promise(function(resolve, reject) {
     makeRequest('php/uploadTempUser.php', 'POST', JSON.stringify({ name: name }))
     .then(function(posts) {
-      if(posts.responseText=='1') resolve(posts);
-      else reject(posts);
-    })
-    .catch(function(error) { reject(error); });
+      try {
+        let PID = JSON.parse(posts.responseText)[0].PlayerID;
+        if(PID > 0) resolve(PID);
+        else reject(-1);
+      } catch(e) { reject(-1); }
+    }).catch(function(error) { reject(-1); });
   });
 }
+
+function getActiveGames() {
+  return new Promise(function(resolve, reject) {
+    makeRequest('php/getActiveGames.php', 'GET')
+    .then(function(posts) {
+      try {
+        let games = JSON.parse(posts.responseText);
+        resolve(games);
+      } catch(e) { reject([]); }
+    });
+  });
+}
+
+function initialiseGame(PlayerID, GameName, GamePassword, scoreToWin, allowImages) {
+  return new Promise(function(resolve, reject) {
+    makeRequest('php/createGame.php', 'POST', JSON.stringify({
+      GameOwnerID: PlayerID,
+      GameName: GameName,
+      GamePassword: (GamePassword==undefined ? NULL : GamePassword),
+      scoreToWin: scoreToWin,
+      allowImages: allowImages
+    })).then(function(posts) {
+      try {
+        let GID = JSON.parse(posts.responseText)[0].GameID;
+        resolve(GID);
+      } catch(e) { reject(-1); }
+    }).catch(function(error) { reject(-1); });
+  });
+}
+
+
+
+
+
+
+
+
 
 // Orders all players white cards[ASC]. //
 function sortWhiteCards() {

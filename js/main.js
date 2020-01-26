@@ -1,59 +1,67 @@
 $(document).ready(function() {
   // listPlayers();
   $('div#player_entry > input#player_entry_name_input').keydown(function( event ) {
-    if(event.which===13) addPlayer();
+    if(event.which===13) StartProcess();
   });
 });
 
 
-const listPlayers    = (      ) => console.log(playerList);
-const searchPlayerID = (_ID   ) =>       playerList.filter(obj => obj.playerID ==           _ID)[0];
-const getCardOwner   = (card  ) =>       playerList.filter(obj => obj.playerID == card.playerID)[0];
-const getWhiteCard   = (cardID) => activeWhiteCards.filter(obj => obj.cardID   ==        cardID)[0];
+let PlayerID = -1, GameID = -1;
+// const listPlayers    = (      ) => console.log(playerList);
+// const searchPlayerID = (_ID   ) =>       playerList.filter(obj => obj.playerID ==           _ID)[0];
+// const getCardOwner   = (card  ) =>       playerList.filter(obj => obj.playerID == card.playerID)[0];
+// const getWhiteCard   = (cardID) => activeWhiteCards.filter(obj => obj.cardID   ==        cardID)[0];
 
 const makeRequest = function(url, method, data) {
-	// Create the XHR request
-	var request = new XMLHttpRequest();
-	// Return it as a Promise
-	return new Promise(function(resolve, reject) {
-		// Setup our listener to process compeleted requests
-		request.onreadystatechange = function() {
-			// Only run if the request is complete
-			if (request.readyState !== 4) return;
-			// Process the response
-			if (request.status >= 200 && request.status < 300) {
-				// If successful
-				resolve(request);
-			} else {
-				// If failed
-				reject({
-					status: request.status,
-					statusText: request.statusText
-				});
-			}
+	var request = new XMLHttpRequest(); // Create the XHR request
+	return new Promise(function(resolve, reject) { // Return it as a Promise
+		request.onreadystatechange = function() { // Setup our listener to process compeleted requests
+			if(request.readyState !== 4) return; // Only run if the request is complete
+			else if(request.status >= 200 && request.status < 300) resolve(request); // Process the response if successful
+			else reject({ // If failed
+				status: request.status,
+				statusText: request.statusText
+			});
 		};
-		// Setup our HTTP request
-		request.open(method || 'GET', url, true);
-		// Send the request
-		request.send(data || null);
+		request.open(method || 'GET', url, true); // Setup our HTTP request
+		request.send(data || null); // Send the request
 	});
 };
 
-async function prepareGame() {
-  // Upload player details to DB. //
-  let result = await createTempPlayer($('#player_entry_name_input').val());
-  if(result.responseText == '1') {
-    // Select the player to play the first hand. //
-    activePlayer = playerList[0];
-    // Select the card czar from the remaining players. //
-    roundCzar = playerList[playerList.length - 1];
-
-    // $('div.full_window                  ').hide();
-    // $('div#player_transition.full_window').show();
-    // $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
-    // $('div#player_transition > h2#transition_message    ').html('...is starting the game!<br /><br /><br /><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br />The Card Czar <strong>must not</strong> see anything until their turn.');
-    // $('div#player_transition > div#transition_button    ').html('Click Here to Start...').attr({"onclick": "startGame();"});
+async function createNewGame() {
+  if(PlayerID != -1) {
+    let GameName = $('#game_creation_name_input').val();
+    let GamePassword = $('#game_creation_password_input').val();
+    let scoreToWin = +$('#game_creation_scoreToWin_input').val();
+    let allowImages = ($('#game_creation_allowImages_input').prop("checked") ? 1 : 0);
+    GameID = await initialiseGame(PlayerID, GameName, GamePassword, scoreToWin, allowImages);
   }
+}
+
+async function StartProcess() {
+  // Upload player details to DB. //
+  PlayerID = await createTempPlayer($('#player_entry_name_input').val());
+  if(PlayerID !=  -1) {
+    $('div.full_window               ').hide();
+    $('div#game_selection.full_window').show();
+
+    let activeGames = await getActiveGames();
+    if(activeGames != []) for(let i = 0; i < activeGames.length; i++)
+      $('#game_selection_button_container').append(`<div class="button${(activeGames[i].GamePassword == "") ? '' : ' private'}" id="game_selection_join${activeGames[i].GameID}_button" onclick="joinGame(${activeGames[i].GameID}, ${(activeGames[i].GamePassword == "") ? 'false' : 'true'});"><strong>${activeGames[i].GameName}</strong><br /><br />Join Game [ID : ${activeGames[i].GameID}]</div>`);
+  }
+
+
+
+  // Select the player to play the first hand. //
+  activePlayer = playerList[0];
+  // Select the card czar from the remaining players. //
+  roundCzar = playerList[playerList.length - 1];
+
+  // $('div.full_window                  ').hide();
+  // $('div#player_transition.full_window').show();
+  // $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
+  // $('div#player_transition > h2#transition_message    ').html('...is starting the game!<br /><br /><br /><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br />The Card Czar <strong>must not</strong> see anything until their turn.');
+  // $('div#player_transition > div#transition_button    ').html('Click Here to Start...').attr({"onclick": "startGame();"});
 }
 
 
