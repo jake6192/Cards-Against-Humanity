@@ -13,30 +13,20 @@ let PlayerID = -1, GameID = -1;
 // const getWhiteCard   = (cardID) => activeWhiteCards.filter(obj => obj.cardID   ==        cardID)[0];
 
 const makeRequest = function(url, method, data) {
-	var request = new XMLHttpRequest(); // Create the XHR request
-	return new Promise(function(resolve, reject) { // Return it as a Promise
-		request.onreadystatechange = function() { // Setup our listener to process compeleted requests
-			if(request.readyState !== 4) return; // Only run if the request is complete
-			else if(request.status >= 200 && request.status < 300) resolve(request); // Process the response if successful
-			else reject({ // If failed
-				status: request.status,
-				statusText: request.statusText
+	var XHR = new XMLHttpRequest(); // Create the XHR request. //
+	return new Promise(function(resolve, reject) { // Return it as a Promise. //
+		XHR.onreadystatechange = function() { // Setup our listener to process compeleted XHR requests. //
+			if(XHR.readyState !== 4) return; // Only run if the XHR request is complete. //
+			else if(XHR.status >= 200 && XHR.status < 300) resolve(XHR); // Process the response if successful. //
+			else reject({ // If failed. //
+				status: XHR.status,
+				statusText: XHR.statusText
 			});
 		};
-		request.open(method || 'GET', url, true); // Setup our HTTP request
-		request.send(data || null); // Send the request
+		XHR.open(method || 'GET', url, true); // Setup our HTTP request. //
+		XHR.send(data || null); // Send the request. //
 	});
 };
-
-async function createNewGame() {
-  if(PlayerID != -1) {
-    let GameName = $('#game_creation_name_input').val();
-    let GamePassword = $('#game_creation_password_input').val();
-    let scoreToWin = +$('#game_creation_scoreToWin_input').val();
-    let allowImages = ($('#game_creation_allowImages_input').prop("checked") ? 1 : 0);
-    GameID = await initialiseGame(PlayerID, GameName, GamePassword, scoreToWin, allowImages);
-  }
-}
 
 async function StartProcess() {
   // Upload player details to DB. //
@@ -62,6 +52,18 @@ async function StartProcess() {
   // $('div#player_transition > h1#transition_player_name').html(activePlayer.playerName);
   // $('div#player_transition > h2#transition_message    ').html('...is starting the game!<br /><br /><br /><strong>'+roundCzar.playerName+'</strong> is the Card Czar for this round<br />The Card Czar <strong>must not</strong> see anything until their turn.');
   // $('div#player_transition > div#transition_button    ').html('Click Here to Start...').attr({"onclick": "startGame();"});
+}
+
+async function createNewGame() {
+  if(PlayerID != -1) {
+    let GameName = $('#game_creation_name_input').val();
+    let GamePassword = $('#game_creation_password_input').val();
+    let scoreToWin = +$('#game_creation_scoreToWin_input').val();
+    let allowImages = ($('#game_creation_allowImages_input').prop("checked") ? 1 : 0);
+    let isHost = true;
+    GameID = await initialiseGame(PlayerID, GameName, GamePassword, scoreToWin, allowImages);
+    // joinGame(GameID, isHost) // TODO //
+  }
 }
 
 
