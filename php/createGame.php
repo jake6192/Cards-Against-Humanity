@@ -9,11 +9,12 @@
   $allowImages = $_POST['allowImages'];
 
   $con = mysqli_connect("localhost", "debian-sys-maint", "1gwKkXCpStswPrcx", "CardsAgainstHumanity");
-  $sql = "INSERT INTO `ActiveGames` (`GameOwnerID`, `GameName`, `GamePassword`, `scoreToWin`, `allowImages`) VALUES (".$GameOwnerID.", '".$GameName."', '".$GamePassword."', ".$scoreToWin.", ".$allowImages.")";
+  $sql = 'INSERT INTO `ActiveGames` (`GameOwnerID`, `GameName`, `GamePassword`, `scoreToWin`, `allowImages`) VALUES ("'.$GameOwnerID.'", "'.$GameName.'", "'.$GamePassword.'", "'.$scoreToWin.'", "'.$allowImages.'")';
   mysqli_set_charset($con, "utf8");
-  $result = mysqli_query($con, $sql);
+  // $result = mysqli_query($con, $sql);
+  mysqli_query($con, $sql);
 
-  if($result == 1) {
+  // if($result == 1) {
     $sql = "SELECT `GameID` FROM `ActiveGames` WHERE `GameOwnerID` = ".$GameOwnerID;
     $result = mysqli_query($con, $sql);
     $array = array();
@@ -23,6 +24,8 @@
     $sql = "UPDATE `TempUsers` SET `GameID` = '".$array[0]['GameID']."', `isGameOwner` = '1' WHERE `PlayerID` = ".$GameOwnerID;
     $result = mysqli_query($con, $sql);
 
-    if($result == 1) echo json_encode( $array );
-  };
+    // if($result == 1) {
+      echo $array[0]['GameID'];//json_encode( $array );
+    // }
+  // };
 ?>

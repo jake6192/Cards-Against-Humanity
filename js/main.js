@@ -62,7 +62,7 @@ async function createNewGame() {
     let allowImages = ($('#game_creation_allowImages_input').prop("checked") ? 1 : 0);
     let isHost = true;
     GameID = await initialiseGame(PlayerID, GameName, GamePassword, scoreToWin, allowImages);
-    // joinGame(GameID, isHost) // TODO //
+    // joinGame(GameID, GamePassword, isHost) // TODO //
   }
 }
 

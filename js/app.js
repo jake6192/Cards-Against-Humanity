@@ -72,7 +72,7 @@ function initialiseGame(PlayerID, GameName, GamePassword, scoreToWin, allowImage
       allowImages: allowImages
     })).then(function(posts) {
       try {
-        let GID = JSON.parse(posts.responseText)[0].GameID;
+        let GID = +posts.responseText;
         resolve(GID);
       } catch(e) { reject(-1); }
     }).catch(function(error) { reject(-1); });
